@@ -1,0 +1,165 @@
+﻿Unable to find image 'sonarsource/sonar-scanner-cli:latest' locally
+latest: Pulling from sonarsource/sonar-scanner-cli
+4f4fb700ef54: Pulling fs layer
+4e1ca7d91219: Pulling fs layer
+0f0cc63a5845: Pulling fs layer
+3aabe83a1b6f: Pulling fs layer
+392aaab27b8a: Pulling fs layer
+d1bec7d37842: Pulling fs layer
+4f4fb700ef54: Already exists
+4f4fb700ef54: Pull complete
+4e1ca7d91219: Download complete
+d1bec7d37842: Download complete
+0f0cc63a5845: Download complete
+0f0cc63a5845: Pull complete
+3aabe83a1b6f: Download complete
+392aaab27b8a: Download complete
+3aabe83a1b6f: Pull complete
+4e1ca7d91219: Pull complete
+392aaab27b8a: Pull complete
+d1bec7d37842: Pull complete
+Digest: sha256:a3f4215076706c95a17a68c19322ee916e40a3acd081a8c1a1e839e0194afa57
+Status: Downloaded newer image for sonarsource/sonar-scanner-cli:latest
+01:09:09.339 INFO  Scanner configuration file: /opt/sonar-scanner/conf/sonar-scanner.properties
+01:09:09.343 INFO  Project root configuration file: /usr/src/sonar-project.properties
+01:09:09.364 INFO  SonarScanner CLI 8.1.0.6389
+01:09:09.369 INFO  Linux 6.6.114.1-microsoft-standard-WSL2 amd64
+01:09:10.398 INFO  Communicating with SonarQube Community Build 26.10.0.133078
+01:09:10.399 INFO  JRE provisioning: os[linux], arch[x86_64]
+01:09:12.805 INFO  Starting SonarScanner Engine...
+01:09:12.806 INFO  Java 21.0.12.1 Eclipse Adoptium (64-bit)
+01:09:13.838 INFO  Load global settings
+01:09:13.954 INFO  Load global settings (done) | time=114ms
+01:09:13.956 INFO  Server id: 147B411E-AaFgzGAXe8jgWpX-RLCq
+01:09:13.965 INFO  Loading required plugins
+01:09:13.966 INFO  Load plugins index
+01:09:13.993 INFO  Load plugins index (done) | time=28ms
+01:09:13.994 INFO  Load/download plugins
+01:09:14.314 INFO  Load/download plugins (done) | time=320ms
+01:09:14.581 INFO  Load project settings for component key: 'minibank3'
+01:09:14.600 INFO  Load project settings for component key: 'minibank3' (done) | time=19ms
+01:09:14.613 INFO  Process project properties
+01:09:14.625 INFO  Process project properties (done) | time=12ms
+01:09:14.634 INFO  Project key: minibank3
+01:09:14.634 INFO  Base dir: /usr/src
+01:09:14.634 INFO  Working dir: /tmp/.scannerwork
+01:09:14.675 INFO  Load quality profiles
+01:09:14.841 INFO  Load quality profiles (done) | time=166ms
+01:09:14.858 WARN  SCM provider autodetection failed. Please use "sonar.scm.provider" to define SCM of your project, or disable the SCM Sensor in the project settings.
+01:09:14.865 INFO  Load active rules
+01:09:15.077 INFO  Load active rules (done) | time=212ms
+01:09:15.082 INFO  Load analysis cache
+01:09:15.093 INFO  Load analysis cache (404) | time=12ms
+01:09:15.157 INFO  Preprocessing files...
+01:09:15.262 INFO  7 languages detected in 29 preprocessed files (done) | time=104ms
+01:09:15.263 INFO  0 files ignored because of inclusion/exclusion patterns
+01:09:15.263 INFO  2 directories skipped because of exclusion patterns (content not counted)
+01:09:15.264 INFO  Loading plugins for detected languages
+01:09:15.264 INFO  Load/download plugins
+01:09:16.899 INFO  Load/download plugins (done) | time=1634ms
+01:09:17.059 INFO  Load project repositories
+01:09:17.166 INFO  Load project repositories (done) | time=108ms
+01:09:17.201 INFO  Indexing files...
+01:09:17.201 INFO  Project configuration:
+01:09:17.201 INFO    Excluded sources: backend/tests/**, backend/data/**, **/__pycache__/**, **/.pytest_cache/**, **/node_modules/**, **/dist/**, **/.venv/**
+01:09:17.281 INFO  29 files indexed (done) | time=80ms
+01:09:17.282 INFO  Quality profile for css: Sonar way core
+01:09:17.282 INFO  Quality profile for docker: Sonar way core
+01:09:17.283 INFO  Quality profile for js: Sonar way core
+01:09:17.283 INFO  Quality profile for json: Sonar way comprehensive
+01:09:17.283 INFO  Quality profile for py: Sonar way core
+01:09:17.283 INFO  Quality profile for web: Sonar way core
+01:09:17.284 INFO  Quality profile for yaml: Sonar way comprehensive
+01:09:17.284 INFO  ------------- Run sensors on module MiniBank 3 - Laboratorio de seguridad
+01:09:17.321 INFO  Load metrics repository
+01:09:17.343 INFO  Load metrics repository (done) | time=22ms
+01:09:17.814 INFO  Reflections took 61 ms to scan 1 urls, producing 30 keys and 303 values
+01:09:17.898 INFO  Sensor IaC YAML File Type Classification Sensor [iac]
+01:09:17.950 INFO  Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=52ms
+01:09:17.951 INFO  Sensor IaC CloudFormation Sensor [iac]
+01:09:17.951 INFO  There are no files to be analyzed for the CloudFormation language
+01:09:17.951 INFO  Sensor IaC CloudFormation Sensor [iac] (done) | time=0ms
+01:09:17.951 INFO  Sensor IaC cfn-lint report Sensor [iac]
+01:09:17.951 INFO  Sensor IaC cfn-lint report Sensor [iac] (done) | time=0ms
+01:09:17.951 INFO  Sensor IaC Kustomization Sensor [iac]
+01:09:17.952 INFO  Sensor IaC Kustomization Sensor [iac] (done) | time=0ms
+01:09:17.952 INFO  Sensor IaC hadolint report Sensor [iac]
+01:09:17.952 INFO  Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+01:09:17.952 INFO  Sensor IaC Azure Resource Manager Sensor [iac]
+01:09:17.952 INFO  There are no files to be analyzed for the Azure Resource Manager language
+01:09:17.953 INFO  Sensor IaC Azure Resource Manager Sensor [iac] (done) | time=0ms
+01:09:17.953 INFO  Sensor Java Config Sensor [iac]
+01:09:17.953 INFO  There are no files to be analyzed for the Java language
+01:09:17.953 INFO  Sensor Java Config Sensor [iac] (done) | time=0ms
+01:09:17.953 INFO  Sensor IaC Docker Sensor [iac]
+01:09:18.011 INFO  2 source files to be analyzed
+01:09:18.080 INFO  2/2 source files have been analyzed
+01:09:18.081 INFO  Sensor IaC Docker Sensor [iac] (done) | time=127ms
+01:09:18.081 INFO  Sensor Python Sensor [python]
+01:09:18.400 INFO  Starting global symbols computation
+01:09:18.401 INFO  10 source files to be analyzed
+01:09:18.681 INFO  10/10 source files have been analyzed
+01:09:18.683 INFO  Finished step global symbols computation in 280ms
+01:09:18.708 INFO  Starting rules execution
+01:09:18.708 INFO  10 source files to be analyzed
+01:09:19.273 INFO  10/10 source files have been analyzed
+01:09:19.275 INFO  Finished step rules execution in 564ms
+01:09:19.276 INFO  The Python analyzer was able to leverage cached data from previous analyses for 0 out of 10 files. These files were not parsed.
+01:09:19.277 INFO  Sensor Python Sensor [python] (done) | time=1196ms
+01:09:19.278 INFO  Sensor Cobertura Sensor for Python coverage [python]
+01:09:19.335 INFO  Sensor Cobertura Sensor for Python coverage [python] (done) | time=57ms
+01:09:19.335 INFO  Sensor PythonXUnitSensor [python]
+01:09:19.395 INFO  Sensor PythonXUnitSensor [python] (done) | time=59ms
+01:09:19.395 INFO  Sensor Python Dependency Sensor [python]
+01:09:19.402 INFO  Sensor Python Dependency Sensor [python] (done) | time=7ms
+01:09:19.403 INFO  Sensor HTML [web]
+01:09:19.445 INFO  Sensor HTML [web] (done) | time=42ms
+01:09:19.445 INFO  Sensor IaC Kubernetes Sensor [iac]
+01:09:19.500 INFO  There are no files to be analyzed for the Kubernetes language
+01:09:19.501 INFO  Sensor IaC Kubernetes Sensor [iac] (done) | time=55ms
+01:09:19.501 INFO  Sensor TextAndSecretsSensor [text]
+01:09:19.515 INFO  Available processors: 12
+01:09:19.515 INFO  Using 12 threads for analysis.
+01:09:19.759 INFO  Start fetching files for the text and secrets analysis
+01:09:19.768 INFO  Using Git CLI to retrieve dirty files
+01:09:19.777 WARN  Retrieving only language associated files, make sure to run the analysis inside a git repository to make use of inclusions specified via "sonar.text.inclusions"
+01:09:19.778 INFO  Starting the text and secrets analysis
+01:09:19.779 INFO  23 source files to be analyzed for the text and secrets analysis
+01:09:19.829 INFO  23/23 source files have been analyzed for the text and secrets analysis
+01:09:19.831 INFO  Sensor TextAndSecretsSensor [text] (done) | time=330ms
+01:09:19.834 INFO  ------------- Run sensors on project
+01:09:20.026 INFO  Sensor JavaScript/TypeScript/CSS analysis [javascript]
+01:09:20.337 INFO  Detected os: Linux arch: amd64 alpine: false. Platform: LINUX_X64
+01:09:20.337 INFO  Deploy location /opt/sonar-scanner/.sonar/js/node-runtime, tagetRuntime: /opt/sonar-scanner/.sonar/js/node-runtime/node,  version: /opt/sonar-scanner/.sonar/js/node-runtime/version.txt
+01:09:22.911 INFO  Using embedded Node.js runtime.
+01:09:22.911 INFO  Using Node.js executable: '/opt/sonar-scanner/.sonar/js/node-runtime/node'.
+01:09:24.960 INFO  Memory configuration: OS (15949 MB), Node.js (4288 MB).
+01:09:24.968 INFO  gRPC analyze-project server listening on 127.0.0.1:33217
+01:09:25.115 INFO  Plugin version: [14.0.0.46108]
+01:09:26.995 INFO  Found 0 tsconfig.json file(s): []
+01:09:28.118 INFO  8 source files to be analyzed
+01:09:28.119 INFO  Analyzing 6 file(s) using default options [lib: lib.esnext.d.ts, lib.dom.d.ts]
+01:09:28.119 INFO  8/8 source files have been analyzed
+01:09:28.127 INFO  Hit the cache for 0 out of 7
+01:09:28.127 INFO  Miss the cache for 7 out of 7: ANALYSIS_MODE_INELIGIBLE [7/7]
+01:09:28.128 INFO  Sensor JavaScript/TypeScript/CSS analysis [javascript] (done) | time=8101ms
+01:09:28.128 INFO  Sensor IaC Project Sensor [iac]
+01:09:28.129 INFO  Sensor IaC Project Sensor [iac] (done) | time=1ms
+01:09:28.129 INFO  Sensor Zero Coverage Sensor
+01:09:28.136 INFO  Sensor Zero Coverage Sensor (done) | time=6ms
+01:09:28.136 INFO  ------------- Gather SCA dependencies on project
+01:09:28.141 INFO  Dependency analysis skipped
+01:09:28.145 INFO  SCM Publisher No SCM system was detected. You can use the 'sonar.scm.provider' property to explicitly specify it.
+01:09:28.150 INFO  CPD Executor 3 files had no CPD blocks
+01:09:28.151 INFO  CPD Executor Calculating CPD for 14 files
+01:09:28.160 INFO  CPD Executor CPD calculation finished (done) | time=9ms
+01:09:28.276 INFO  Analysis report generated in 110ms, dir size=304.7 kB
+01:09:28.321 INFO  Analysis report compressed in 46ms, zip size=125.3 kB
+01:09:28.372 INFO  Analysis report uploaded in 50ms
+01:09:28.373 INFO  ANALYSIS SUCCESSFUL, you can find the results at: http://sonarqube:9000/dashboard?id=minibank3
+01:09:28.373 INFO  Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+01:09:28.373 INFO  More about the report processing at http://sonarqube:9000/api/ce/task?id=9ea182c4-11a0-4dc7-b9ea-9d1d2236f4ef
+01:09:28.543 INFO  Analysis total time: 15.693 s
+01:09:28.563 INFO  SonarScanner Engine completed successfully
+01:09:28.620 INFO  EXECUTION SUCCESS
+01:09:28.621 INFO  Total time: 19.285s

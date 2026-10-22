@@ -1,0 +1,40 @@
+﻿MiniBank 3 - Ciclo SonarQube (Analizar -> Detectar -> Documentar -> Corregir -> Nueva versión -> Reanalizar)
+=====================================================================================================
+
+Requisito: Docker Desktop abierto ("Engine running"). No necesita Python ni VS Code:
+el scanner corre en un contenedor (sonarsource/sonar-scanner-cli) y lee el mismo
+sonar-project.properties que usa pysonar.
+
+Abrir PowerShell en esta carpeta (Entregables\SonarQube) y ejecutar, EN ORDEN:
+
+  1) Punto de partida (código original 3.0, NO se modifica nada):
+       powershell -ExecutionPolicy Bypass -File .\sonar_ciclo.ps1 -Version 3.0.0-sast-lab
+
+     La primera vez pide crear una clave nueva para el usuario "admin" de SonarQube.
+     Anótela: se pide de nuevo en cada ciclo.
+
+  2) Ciclo 3.1 (copia builds\3.1.0 sobre minibank-qa-lab-v3, prueba y reanaliza):
+       powershell -ExecutionPolicy Bypass -File .\sonar_ciclo.ps1 -Version 3.1.0
+
+  3) Ciclo 3.2:
+       powershell -ExecutionPolicy Bypass -File .\sonar_ciclo.ps1 -Version 3.2.0
+
+Después de CADA ciclo, abra http://localhost:9000 (usuario admin) y tome estas capturas
+(Win + Shift + S) guardándolas en resultados\<versión>\ :
+  - overview.png  : proyecto minibank3 > Overview > pestaña "Overall Code"
+  - issues.png    : Issues > filtro Software Quality = Security
+  - hotspots.png  : Security Hotspots (si la pestaña existe en su versión)
+
+Qué deja cada ciclo en resultados\<versión>\:
+  registro_ciclo.txt, scanner.txt, ce_task.json, pytest.txt, lab_status.json,
+  issues_*.json, hotspots.json, medidas.json, quality_gate.json, quality_profiles.json
+
+builds\3.0.0-original\ contiene los archivos originales por si necesita volver al punto de partida.
+El token de análisis se crea en memoria para cada ciclo y se revoca al terminar.
+
+Notas agregadas (21-10-2026)
+----------------------------
+- Si el analisis ya se subio pero fallo la exportacion: agregar -SoloExportar (no reconstruye ni reanaliza).
+- Al pasar a 3.2 (contenedores sin root) una base creada por builds anteriores queda de solo lectura:
+  mover backend\data\minibank_v3.db* a un respaldo antes del ciclo (ver resultados\3.2.0\respaldo_db_3.1).
+- Resultado: 3.0 = 24 problemas de seguridad, 3.1 = 4, 3.2 = 0 (Overall Code).

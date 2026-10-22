@@ -1,0 +1,42 @@
+﻿[2026-10-21 20:28:04] Ciclo 3.0.0-sast-lab | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 20:28:05] Docker Engine 29.7.2
+[2026-10-21 20:28:05] Creando contenedor SonarQube (primera vez: descarga ~1 GB, puede tardar)
+[2026-10-21 20:29:15] Esperando a que SonarQube esté UP
+[2026-10-21 20:30:00] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:06:23] Ciclo 3.0.0-sast-lab | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 22:06:23] Docker Engine 29.7.2
+[2026-10-21 22:06:23] Esperando a que SonarQube esté UP
+[2026-10-21 22:06:25] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:07:45] Ciclo 3.0.0-sast-lab | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 22:07:45] Docker Engine 29.7.2
+[2026-10-21 22:07:45] Esperando a que SonarQube esté UP
+[2026-10-21 22:07:47] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:08:17] Proyecto minibank3 creado
+[2026-10-21 22:08:17] Sin archivos para aplicar: se analiza el código tal como está (punto de partida)
+[2026-10-21 22:08:17] docker compose up --build -d
+[2026-10-21 22:08:43] MiniBank /api/lab/status: status=ready build=3.0.0-sast-lab
+[2026-10-21 22:08:43] pytest dentro del contenedor backend
+[2026-10-21 22:08:45] pytest: ========================= 8 passed, 1 warning in 0.81s =========================
+[2026-10-21 22:08:45] Ejecutando SonarScanner (sonar-project.properties, versión 3.0.0-sast-lab)
+[2026-10-21 22:09:30] Token de análisis revocado
+[2026-10-21 22:12:44] Ciclo 3.0.0-sast-lab | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 22:12:44] Docker Engine 29.7.2
+[2026-10-21 22:12:44] Esperando a que SonarQube esté UP
+[2026-10-21 22:12:46] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:13:03] Modo -SoloExportar: se exporta el último análisis procesado por el servidor
+[2026-10-21 22:13:04] RESUMEN 3.0.0-sast-lab
+   alert_status                         OK
+   bugs                                 4
+   code_smells                          0
+   coverage                             0.0
+   duplicated_lines_density             0.0
+   maintainability_issues               {"INFO":0,"LOW":0,"MEDIUM":0,"HIGH":0,"BLOCKER":0,"total":0}
+   ncloc                                905
+   reliability_issues                   {"INFO":0,"LOW":0,"MEDIUM":4,"HIGH":0,"BLOCKER":0,"total":4}
+   security_hotspots                    0
+   security_issues                      {"INFO":0,"LOW":5,"MEDIUM":6,"HIGH":13,"BLOCKER":0,"total":24}
+   security_rating                      4.0
+   security_review_rating               1.0
+   software_quality_security_issues     24
+   software_quality_security_rating     4.0
+   vulnerabilities                      24

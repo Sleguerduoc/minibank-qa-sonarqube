@@ -1,0 +1,29 @@
+﻿Unable to find image 'sonarqube:community' locally
+community: Pulling from library/sonarqube
+4f4fb700ef54: Pulling fs layer
+f2b4ef06ff01: Pulling fs layer
+f08c64c4cf72: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+c36ab0ed31bb: Pulling fs layer
+e1df5f2dffdd: Pulling fs layer
+6204cc52cfc8: Pulling fs layer
+04f883addde1: Pulling fs layer
+4f4fb700ef54: Already exists
+f2b4ef06ff01: Download complete
+6204cc52cfc8: Download complete
+04f883addde1: Download complete
+f08c64c4cf72: Download complete
+6de9b62434cd: Download complete
+3fcdc523136e: Download complete
+f2b4ef06ff01: Pull complete
+c36ab0ed31bb: Download complete
+f08c64c4cf72: Pull complete
+c36ab0ed31bb: Pull complete
+6204cc52cfc8: Pull complete
+e1df5f2dffdd: Download complete
+4f4fb700ef54: Pull complete
+04f883addde1: Pull complete
+e1df5f2dffdd: Pull complete
+Digest: sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8
+Status: Downloaded newer image for sonarqube:community
+0e1b8271c4ce511a86001dd8328ff2b5d47a779b2a86fbe94fbf6b3a47bcd554

@@ -1,0 +1,24 @@
+﻿============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /usr/local/bin/python
+rootdir: /srv
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 8 items
+
+tests/test_smoke.py::test_health_y_build PASSED                          [ 12%]
+tests/test_smoke.py::test_status_real PASSED                             [ 25%]
+tests/test_smoke.py::test_esquema_sqlite PASSED                          [ 37%]
+tests/test_smoke.py::test_dataset_cargado PASSED                         [ 50%]
+tests/test_smoke.py::test_login_disponible PASSED                        [ 62%]
+tests/test_smoke.py::test_cuenta_inicial PASSED                          [ 75%]
+tests/test_smoke.py::test_reset_estandar PASSED                          [ 87%]
+tests/test_smoke.py::test_reset_saldo_bajo PASSED                        [100%]
+
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:37
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================= 8 passed, 1 warning in 0.81s =========================

@@ -1,0 +1,9 @@
+﻿{
+    "status":  "ready",
+    "version":  "3.0.0",
+    "build":  "3.0.0-sast-lab",
+    "database":  "sqlite",
+    "schema":  "ready",
+    "seed":  "loaded",
+    "perfil":  "estandar"
+}
