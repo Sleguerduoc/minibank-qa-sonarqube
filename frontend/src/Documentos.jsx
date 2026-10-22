@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { llamar, pesos } from './api.js'
 
-const documentPassword = 'L4bD0c!27Qr6'
+// Canal restringido al mismo origen: reemplaza postMessage(..., '*') y window.opener.
+const CANAL = 'minibank-documentos'
 
 export function esVistaDocumento() {
   return new URLSearchParams(window.location.search).get('vista') === 'documento'
 }
 
 function crearPin() {
-  return String(Math.floor(100000 + Math.random() * 900000))
-}
-
-function enviarMensaje(documentWindow, mensaje) {
-  documentWindow.postMessage(mensaje, '*')
+  const valor = new Uint32Array(1)
+  window.crypto.getRandomValues(valor)
+  return String(100000 + (valor[0] % 900000))
 }
 
 export default function Documentos({ token, sesionInvalida }) {
@@ -22,14 +21,14 @@ export default function Documentos({ token, sesionInvalida }) {
   const [resultado, setResultado] = useState(null)
   const [busy, setBusy] = useState(false)
   const documentoActual = useRef(null)
-  const documentWindowRef = useRef(null)
 
   useEffect(() => {
-    function recibirMensaje(event) {
+    const canal = new BroadcastChannel(CANAL)
+    canal.onmessage = (event) => {
       const mensaje = event.data
       if (!mensaje || typeof mensaje !== 'object') return
-      if (mensaje.tipo === 'minibank-documento-listo' && documentWindowRef.current && documentoActual.current) {
-        enviarMensaje(documentWindowRef.current, { tipo: 'minibank-documento', datos: documentoActual.current })
+      if (!vistaDocumento && mensaje.tipo === 'minibank-documento-listo' && documentoActual.current) {
+        canal.postMessage({ tipo: 'minibank-documento', datos: documentoActual.current })
       }
       if (vistaDocumento && mensaje.tipo === 'minibank-documento' && mensaje.datos?.documento) {
         documentoActual.current = mensaje.datos
@@ -37,18 +36,15 @@ export default function Documentos({ token, sesionInvalida }) {
         setResultado({ ok: true, mensaje: 'Documento recibido.' })
       }
     }
-    window.addEventListener('message', recibirMensaje)
-    if (vistaDocumento && window.opener) {
-      enviarMensaje(window.opener, { tipo: 'minibank-documento-listo' })
-    }
-    return () => window.removeEventListener('message', recibirMensaje)
+    if (vistaDocumento) canal.postMessage({ tipo: 'minibank-documento-listo' })
+    return () => canal.close()
   }, [vistaDocumento])
 
   async function preparar(e) {
     e.preventDefault(); setBusy(true); setResultado(null)
     const { res, data } = await llamar('/lab/documentos', {
       metodo: 'POST', token,
-      cuerpo: { formato, pin_cliente: crearPin(), clave_documentos: documentPassword },
+      cuerpo: { formato, pin_cliente: crearPin() },
     })
     setBusy(false)
     if (res.status === 401) return sesionInvalida(token)
@@ -61,11 +57,8 @@ export default function Documentos({ token, sesionInvalida }) {
   }
 
   function abrir() {
-    const documentWindow = window.open(new URL('?vista=documento', window.location.href).href, '_blank')
-    if (!documentWindow) {
-      return setResultado({ ok: false, mensaje: 'El navegador bloqueó la ventana. Permita ventanas para este laboratorio y vuelva a intentar.' })
-    }
-    documentWindowRef.current = documentWindow
+    // noopener + noreferrer: la ventana nueva no obtiene referencia a esta (window.opener = null).
+    window.open(new URL('?vista=documento', window.location.href).href, '_blank', 'noopener,noreferrer')
     setResultado({ ok: true, mensaje: 'Documento abierto en una nueva ventana.' })
   }
 

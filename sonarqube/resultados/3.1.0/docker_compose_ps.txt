@@ -1,0 +1,3 @@
+﻿NAME                            IMAGE                         COMMAND                  SERVICE    CREATED          STATUS                   PORTS
+minibank-qa-lab-v3-backend-1    minibank-qa-lab-v3-backend    "uvicorn app.main:apΓÇª"   backend    10 seconds ago   Up 8 seconds (healthy)   127.0.0.1:8002->8000/tcp
+minibank-qa-lab-v3-frontend-1   minibank-qa-lab-v3-frontend   "docker-entrypoint.sΓÇª"   frontend   9 seconds ago    Up 2 seconds             127.0.0.1:5175->5173/tcp

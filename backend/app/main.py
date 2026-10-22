@@ -111,7 +111,7 @@ def login(datos: Credenciales):
     with db.transaction(write=True) as conn:
         usuario = conn.execute("SELECT nombre, clave FROM users WHERE rut = ?", (rut,)).fetchone()
         if not validar_rut(datos.rut) or usuario is None or usuario["clave"] != datos.clave:
-            logger.warning("Login rechazado rut=%s clave=%s", rut, datos.clave)
+            logger.warning("Login rechazado: credenciales inválidas")
             raise HTTPException(401, "RUT o clave incorrectos")
         token = secrets.token_hex(32)
         conn.execute("INSERT INTO sessions(token, user_rut, created_at) VALUES (?, ?, ?)",

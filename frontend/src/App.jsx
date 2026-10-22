@@ -86,15 +86,16 @@ export default function App() {
     limpiarSesion()
   }
 
-  if (token && cuenta && esVistaDocumento()) {
+  if (esVistaDocumento()) {
+    // La vista de documento solo muestra datos recibidos desde la ventana principal (mismo origen).
     return <main className="pagina">
-      <header className="cabecera"><div><strong>MiniBank <span>3.0.0-sast-lab</span></strong><p className="nota">Documentos de la cuenta</p></div></header>
-      <Documentos token={token} sesionInvalida={sesionInvalida} />
+      <header className="cabecera"><div><strong>MiniBank <span>3.1.0</span></strong><p className="nota">Documentos de la cuenta</p></div></header>
+      <Documentos token={null} sesionInvalida={sesionInvalida} />
     </main>
   }
 
   return <main className="pagina">
-    <header className="cabecera"><div><strong>MiniBank <span>3.0.0-sast-lab</span></strong><p className="nota">QA Lab · Operación: ¿liberamos esta versión?</p></div>
+    <header className="cabecera"><div><strong>MiniBank <span>3.1.0</span></strong><p className="nota">QA Lab · Operación: ¿liberamos esta versión?</p></div>
       {token && <button className="secundario" onClick={salir}>Salir</button>}</header>
     {error && <p role="alert" className="aviso error">{error}</p>}
     {!token && <Login onLogin={iniciarSesion} onUnauthorized={() => limpiarSesion()} />}
@@ -122,7 +123,7 @@ export default function App() {
       </div>
       <Documentos token={token} sesionInvalida={sesionInvalida} />
     </>}
-    <footer className="nota">Build 3.0.0-sast-lab · Datos de práctica persistentes en SQLite. Consulte los requisitos y registre evidencia de cada caso.</footer>
+    <footer className="nota">Build 3.1.0 · Datos de práctica persistentes en SQLite. Consulte los requisitos y registre evidencia de cada caso.</footer>
   </main>
 }
 

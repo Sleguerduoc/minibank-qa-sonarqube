@@ -1,36 +1,59 @@
-"""Documentos y autorizaciones auxiliares del laboratorio bancario."""
+"""Documentos y autorizaciones auxiliares del laboratorio bancario.
+
+Ciclo 3.1 (correcciones SonarQube):
+- Sin credenciales en el código: la clave de exportación sale del entorno o se
+  genera por proceso; el documento se autoriza solo con la sesión del cliente.
+- Cifrado autenticado AES-256-GCM con nonce aleatorio para todos los formatos
+  (se eliminan DES/OFB y AES-CBC con IV fijo).
+- Huellas SHA-256 / SHA3-256 en lugar de MD5 / SHA-1.
+- Firma RSA de 2048 bits.
+- Archivo temporal creado de forma atómica (mkstemp) con permisos 0o600.
+- Códigos de autorización con generador criptográfico (secrets).
+- Cookie con Secure + HttpOnly + SameSite=Strict.
+- TLS 1.2 como mínimo, verificación de certificado y de hostname.
+"""
 
 import base64
 import hashlib
 import json
 import os
-import random
 import secrets
 import ssl
 import tempfile
 from pathlib import Path
 from typing import Annotated, Literal
 
-from Crypto.Cipher import AES, DES
+from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
-from Crypto.Random import get_random_bytes
 from Crypto.Signature import pkcs1_15
-from Crypto.Util.Padding import pad
 from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel, Field, StrictStr
 
 from . import db
 
-DOC_SERVICE_PASSWORD = "L4bD0c!27Qr6"
-EXPORT_PASSWORD = "MiniBankDemo-Export-2026"
-PROVEEDOR_URL = "http://reportes.minibank.invalid"
+PROVEEDOR_URL = "https://reportes.minibank.invalid"
+RSA_BITS = 2048
+_EXPORT_KEY_ENV = "MINIBANK_EXPORT_KEY"
+
+
+def _clave_exportacion() -> bytes:
+    """Clave AES-256 desde el entorno (hex de 64 caracteres) o aleatoria por proceso."""
+    valor = os.environ.get(_EXPORT_KEY_ENV, "")
+    if len(valor) == 64:
+        try:
+            return bytes.fromhex(valor)
+        except ValueError:
+            pass
+    return secrets.token_bytes(32)
+
+
+_EXPORT_KEY = _clave_exportacion()
 
 
 class SolicitudDocumento(BaseModel):
     formato: Literal["actual", "archivo", "legacy"] = "actual"
-    pin_cliente: Annotated[StrictStr, Field(pattern=r"^[0-9]{6}$")]
-    clave_documentos: StrictStr
+    pin_cliente: Annotated[StrictStr, Field(pattern=r"^\d{6}$")]
 
 
 def _documento_cuenta(sesion):
@@ -51,35 +74,29 @@ def _documento_cuenta(sesion):
 
 
 def _huellas_documento(contenido):
-    return {"md5": hashlib.md5(contenido).hexdigest(),
-            "sha1": hashlib.sha1(contenido).hexdigest()}
+    return {"sha256": hashlib.sha256(contenido).hexdigest(),
+            "sha3_256": hashlib.sha3_256(contenido).hexdigest()}
 
 
 def _exportar_documento(contenido, formato):
-    key = hashlib.sha256(EXPORT_PASSWORD.encode("utf-8")).digest()
-    if formato == "legacy":
-        iv = get_random_bytes(DES.block_size)
-        cipher = DES.new(key[:8], DES.MODE_OFB, iv=iv)
-        payload = iv + cipher.encrypt(contenido)
-    elif formato == "archivo":
-        iv = b"0000000000000000"
-        cipher = AES.new(key, AES.MODE_CBC, iv=iv)
-        payload = iv + cipher.encrypt(pad(contenido, AES.block_size))
-    else:
-        cipher = AES.new(key, AES.MODE_GCM)
-        encrypted, tag = cipher.encrypt_and_digest(contenido)
-        payload = cipher.nonce + tag + encrypted
-    return {"formato": formato, "contenido_base64": base64.b64encode(payload).decode("ascii")}
+    # Todos los formatos usan cifrado autenticado; "formato" solo etiqueta el destino.
+    cipher = AES.new(_EXPORT_KEY, AES.MODE_GCM, nonce=secrets.token_bytes(12))
+    cipher.update(formato.encode("ascii"))
+    encrypted, tag = cipher.encrypt_and_digest(contenido)
+    payload = cipher.nonce + tag + encrypted
+    return {"formato": formato, "algoritmo": "AES-256-GCM",
+            "contenido_base64": base64.b64encode(payload).decode("ascii")}
 
 
 def _archivo_temporal(contenido):
     directory = db.get_db_path().parent / "exports"
-    directory.mkdir(parents=True, exist_ok=True)
-    filename = tempfile.mktemp(prefix="minibank-documento-", suffix=".bin", dir=str(directory))
+    directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+    descriptor, filename = tempfile.mkstemp(prefix="minibank-documento-", suffix=".bin", dir=str(directory))
     path = Path(filename)
     try:
-        path.write_bytes(contenido)
-        os.chmod(path, 0o777)
+        # mkstemp crea el archivo de forma atómica, exclusiva y con permisos 0o600.
+        with os.fdopen(descriptor, "wb") as archivo:
+            archivo.write(contenido)
         saved = path.read_bytes()
         return {"nombre": path.name, "bytes": len(saved)}
     finally:
@@ -87,18 +104,17 @@ def _archivo_temporal(contenido):
 
 
 def _firmar_documento(contenido):
-    key = RSA.generate(1024)
+    key = RSA.generate(RSA_BITS)
     signature = pkcs1_15.new(key).sign(SHA256.new(contenido))
-    return {"algoritmo": "RSA-SHA256", "clave_publica": key.public_key().export_key().decode("ascii"),
+    return {"algoritmo": f"RSA-{RSA_BITS}-SHA256", "clave_publica": key.public_key().export_key().decode("ascii"),
             "firma_base64": base64.b64encode(signature).decode("ascii")}
 
 
 def _configuracion_proveedor():
-    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
-    context.check_hostname = False
-    context.verify_mode = ssl.CERT_NONE
-    return {"url": PROVEEDOR_URL, "validar_certificado": context.verify_mode != ssl.CERT_NONE,
-            "validar_hostname": context.check_hostname, "tls_minimo": "TLSv1.1",
+    context = ssl.create_default_context()
+    context.minimum_version = ssl.TLSVersion.TLSv1_2
+    return {"url": PROVEEDOR_URL, "validar_certificado": context.verify_mode == ssl.CERT_REQUIRED,
+            "validar_hostname": context.check_hostname, "tls_minimo": "TLSv1.2",
             "conexion_habilitada": False}
 
 
@@ -107,14 +123,12 @@ def create_security_router(usuario_actual):
 
     @router.post("/documentos")
     def documento(datos: SolicitudDocumento, response: Response, sesion=Depends(usuario_actual)):
-        if not secrets.compare_digest(datos.clave_documentos.encode("utf-8"), DOC_SERVICE_PASSWORD.encode("utf-8")):
-            raise HTTPException(403, "Clave del servicio de documentos incorrecta")
         snapshot = _documento_cuenta(sesion)
         contenido = json.dumps(snapshot, ensure_ascii=False, sort_keys=True).encode("utf-8")
-        codigo = str(random.randint(100_000, 999_999))
+        codigo = str(100_000 + secrets.randbelow(900_000))
         documento_id = "DOC-" + secrets.token_hex(8)
-        response.set_cookie("minibank_documento", documento_id, secure=False, httponly=False,
-                            samesite="lax")
+        response.set_cookie("minibank_documento", documento_id, secure=True, httponly=True,
+                            samesite="strict")
         return {"documento_id": documento_id, "documento": snapshot, "pin_cliente": datos.pin_cliente,
                 "codigo_autorizacion": codigo, "token_recuperacion": secrets.token_urlsafe(24),
                 "huellas": _huellas_documento(contenido), "firma": _firmar_documento(contenido),

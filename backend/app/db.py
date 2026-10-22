@@ -5,8 +5,8 @@ import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
-VERSION = "3.0.0"
-BUILD = "3.0.0-sast-lab"
+VERSION = "3.1.0"
+BUILD = "3.1.0"
 RUT_DEMO = "111111111"
 SALDOS = {"estandar": 2_000_000, "saldo_bajo": 500_000}
 DEFAULT_DB_PATH = Path(__file__).resolve().parents[1] / "data" / "minibank_v3.db"
