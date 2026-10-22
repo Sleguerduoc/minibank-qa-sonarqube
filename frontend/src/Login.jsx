@@ -24,6 +24,6 @@ export default function Login({ onLogin, onUnauthorized }) {
     <label>Clave<input autoComplete="current-password" type="password" value={clave} onChange={e => setClave(e.target.value)} /></label>
     <button disabled={busy}>{busy ? 'Ingresando…' : 'Ingresar'}</button>
     {error && <p role="alert" className="aviso error">{error}</p>}
-    <p className="nota">Laboratorio local · Build 3.1.0 · RUT 11.111.111-1 · clave 1234</p>
+    <p className="nota">Laboratorio local · Build 3.2.0 · RUT 11.111.111-1 · clave 1234</p>
   </form>
 }

@@ -1,0 +1,117 @@
+﻿ Image minibank-qa-lab-v3-backend Building 
+ Image minibank-qa-lab-v3-frontend Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.34kB done
+#1 DONE 0.0s
+
+#2 [backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 550B done
+#2 DONE 0.0s
+
+#3 [frontend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 369B done
+#3 DONE 0.0s
+
+#4 [backend internal] load metadata for docker.io/library/python:3.12-slim
+#4 DONE 0.0s
+
+#5 [backend internal] load .dockerignore
+#5 transferring context: 140B done
+#5 DONE 0.0s
+
+#6 [backend internal] load build context
+#6 transferring context: 429B done
+#6 DONE 0.0s
+
+#7 [backend 1/7] FROM docker.io/library/python:3.12-slim@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea
+#7 resolve docker.io/library/python:3.12-slim@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea 0.0s done
+#7 DONE 0.0s
+
+#8 [backend 2/7] WORKDIR /srv
+#8 CACHED
+
+#9 [backend 5/7] COPY app ./app
+#9 CACHED
+
+#10 [backend 6/7] COPY scripts ./scripts
+#10 CACHED
+
+#11 [backend 3/7] COPY requirements.txt .
+#11 CACHED
+
+#12 [backend 4/7] RUN pip install --no-cache-dir -r requirements.txt     && useradd --create-home --uid 10001 minibank     && mkdir -p /srv/data     && chown minibank:minibank /srv/data
+#12 CACHED
+
+#13 [backend 7/7] COPY pytest.ini ./
+#13 CACHED
+
+#14 [backend] exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:ea28e4ab976bd4ec97ae708025a0266f00a4b22964fe62e8f0a2ba4d272b45a2 done
+#14 exporting config sha256:f9fafd8ac70478cc2f102240d18fc63364a581b4a94aeb555f94026f80f5b42e done
+#14 exporting attestation manifest sha256:0ddc8f77611a21648c48e2a9711e5933e52d7d766127f594a9cdaed92b5aa29b 0.0s done
+#14 exporting manifest list sha256:f2a48aad21717444035c379f4bc1107b93d30d32d2c82d16686b2032c91389b9 0.0s done
+#14 naming to docker.io/library/minibank-qa-lab-v3-backend:latest done
+#14 unpacking to docker.io/library/minibank-qa-lab-v3-backend:latest done
+#14 DONE 0.1s
+
+#15 [frontend internal] load metadata for docker.io/library/node:22-alpine
+#15 ...
+
+#16 [backend] resolving provenance for metadata file
+#16 DONE 0.0s
+
+#15 [frontend internal] load metadata for docker.io/library/node:22-alpine
+#15 DONE 0.9s
+
+#17 [frontend internal] load .dockerignore
+#17 transferring context: 58B done
+#17 DONE 0.0s
+
+#18 [frontend internal] load build context
+#18 transferring context: 357B done
+#18 DONE 0.0s
+
+#19 [frontend 1/7] FROM docker.io/library/node:22-alpine@sha256:ebc216c22db53dbde85719a874978d5aec04e6e405ad26a3804c6f9abc4ca1a9
+#19 resolve docker.io/library/node:22-alpine@sha256:ebc216c22db53dbde85719a874978d5aec04e6e405ad26a3804c6f9abc4ca1a9 0.0s done
+#19 DONE 0.0s
+
+#20 [frontend 4/7] COPY --chown=node:node package.json package-lock.json ./
+#20 CACHED
+
+#21 [frontend 2/7] WORKDIR /srv
+#21 CACHED
+
+#22 [frontend 3/7] RUN chown node:node /srv
+#22 CACHED
+
+#23 [frontend 5/7] RUN npm ci --ignore-scripts
+#23 CACHED
+
+#24 [frontend 6/7] COPY --chown=node:node index.html vite.config.js ./
+#24 CACHED
+
+#25 [frontend 7/7] COPY --chown=node:node src ./src
+#25 CACHED
+
+#26 [frontend] exporting to image
+#26 exporting layers done
+#26 exporting manifest sha256:bf25923e73b657ac4b4a3e9d29a705b1597b6c689c152730dd59251e45c073ba done
+#26 exporting config sha256:5a39b5987c233b0808b130abc16f92c42240fa4a3c0d384c2bffd53a2628fcbf done
+#26 exporting attestation manifest sha256:b9133aaac9443062c51ad18e122a3e5b9e9958e83b5ddc9723c67781b35f978f
+#26 exporting attestation manifest sha256:b9133aaac9443062c51ad18e122a3e5b9e9958e83b5ddc9723c67781b35f978f 0.0s done
+#26 exporting manifest list sha256:876b58ee8f53058ea04777b8433f31576f1bae7cff17af494f2db83f46c1dc8a 0.0s done
+#26 naming to docker.io/library/minibank-qa-lab-v3-frontend:latest done
+#26 unpacking to docker.io/library/minibank-qa-lab-v3-frontend:latest done
+#26 DONE 0.1s
+
+#27 [frontend] resolving provenance for metadata file
+#27 DONE 0.0s
+ Image minibank-qa-lab-v3-backend Built 
+ Image minibank-qa-lab-v3-frontend Built 
+ Container minibank-qa-lab-v3-backend-1 Starting 
+ Container minibank-qa-lab-v3-backend-1 Started 
+ Container minibank-qa-lab-v3-backend-1 Waiting 
+ Container minibank-qa-lab-v3-backend-1 Healthy 
+ Container minibank-qa-lab-v3-frontend-1 Starting 
+ Container minibank-qa-lab-v3-frontend-1 Started 

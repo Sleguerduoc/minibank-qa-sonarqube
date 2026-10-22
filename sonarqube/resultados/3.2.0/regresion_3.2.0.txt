@@ -1,0 +1,24 @@
+Regresión de comportamiento sobre MiniBank 3.2.0 (21-10-2026 22:38-22:40, Chrome 155, http://localhost:5175)
+/api/lab/status: status=ready, version=3.2.0, build=3.2.0, sqlite, schema ready, seed loaded
+
+UI (EV-32-01..03):
+CP-LOGIN-001  login OK, "Hola, Camila Rojas" $2.000.000; localStorage=[] sessionStorage=[]; al recargar la sesión no persiste  -> PASS
+CP-TRF-001    TRF-00001, saldo $1.899.700, movimiento -$100.300 visible sin recargar                                         -> PASS
+CP-TRF-002    "Saldo insuficiente para el monto y la comisión"; saldo $500.000; transferido hoy $0                            -> PASS
+
+API (fetch desde la pestaña):
+CP-TRF-002  400 SALDO_INSUFICIENTE; saldo 500000; transferido_hoy 0                                     -> PASS
+CP-LIM-001  0:400  1:200  499999:200  500000:200  500001:400                                           -> PASS
+CP-LIM-002  alias 2:400  3:201  30:201  31:400  " cd ":400 ; "  Oficina  ":201 guardado como "Oficina" (7) -> PASS (RF08 recorte)
+CP-SEG-001  5 endpoints sin sesión -> 401,401,401,401,401; estado sin cambios (saldo 1899700, acum 100000) -> PASS
+CP-SEG-002  inyección / vacía / "1234 " -> 401,401,401; válido 200; logout 200; token tras logout 401     -> PASS
+CP-DST-002  Casa 201; mismo RUT sin formato 409; lista con 1 destinatario                              -> PASS
+Documentos (cambios 3.1): sin sesión 401; con sesión 200; exportación AES-256-GCM; huellas sha256/sha3_256;
+            firma RSA-2048-SHA256; archivo temporal 106 bytes; proveedor https, validar_certificado=true,
+            validar_hostname=true, tls_minimo TLSv1.2                                                    -> OK
+RNF01: se envió un login con la clave centinela "CentinelaRNF01-3.2" para verificar el log del backend.
+
+UI Documentos (EV-32-04, EV-32-05), 22:42:
+- "Preparar documento" con formato Compatibilidad (legacy) responde 200: DOC-3aebddd597de7da9, PIN 6 dígitos, código 6 dígitos.
+- document.cookie desde JavaScript NO muestra la cookie minibank_documento (HttpOnly efectivo).
+- Una segunda pestaña en /?vista=documento recibe el documento por BroadcastChannel ("Documento recibido."), window.opener = null.

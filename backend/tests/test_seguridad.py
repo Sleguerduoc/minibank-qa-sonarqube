@@ -100,3 +100,39 @@ def test_login_rechazado_no_registra_la_clave(client, caplog):
         logger.propagate = False
     assert "Login rechazado" in caplog.text
     assert "CENTINELA-9981" not in caplog.text
+
+
+# ---------------- Ciclo 3.2 ----------------
+
+def test_clave_almacenada_con_hash(client):
+    import sqlite3
+    with sqlite3.connect(db.get_db_path()) as conn:
+        clave = conn.execute("SELECT clave FROM users").fetchone()[0]
+    assert clave.startswith("scrypt$") and "1234" not in clave
+    assert db.verificar_clave("1234", clave) and not db.verificar_clave("12345", clave)
+
+
+def test_migra_clave_en_texto_plano(tmp_path, monkeypatch):
+    import sqlite3
+    monkeypatch.setenv("MINIBANK_DB_PATH", str(tmp_path / "vieja.db"))
+    db.initialize_database()
+    with sqlite3.connect(db.get_db_path()) as conn:
+        conn.execute("UPDATE users SET clave = '1234'")
+    db.initialize_database()
+    assert db.inspect_database()["status"] == "ready"
+
+
+def test_rechazo_por_saldo_no_modifica_acumulado(client):
+    client.post("/api/lab/reset?perfil=saldo_bajo")
+    h = autenticar(client)
+    r = client.post("/api/transferir", headers=h, json={"destinatario": "12.345.678-5", "monto": 499_800})
+    assert r.status_code == 400 and r.json()["codigo"] == "SALDO_INSUFICIENTE"
+    cuenta = client.get("/api/cuenta", headers=h).json()
+    assert cuenta["saldo"] == 500_000 and cuenta["transferido_hoy"] == 0
+
+
+def test_alias_se_guarda_sin_espacios_exteriores(client):
+    h = autenticar(client)
+    r = client.post("/api/destinatarios", headers=h, json={"rut": "12.345.678-5", "nombre": "Ana", "alias": "  Casa  "})
+    assert r.status_code == 201 and r.json()["destinatario"]["alias"] == "Casa"
+    assert client.get("/api/destinatarios", headers=h).json()["destinatarios"][0]["alias"] == "Casa"

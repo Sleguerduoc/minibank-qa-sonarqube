@@ -1,0 +1,39 @@
+﻿============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /usr/local/bin/python
+rootdir: /srv
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 23 items
+
+tests/test_seguridad.py::test_documento_cifrado_autenticado_en_todos_los_formatos[actual] PASSED [  4%]
+tests/test_seguridad.py::test_documento_cifrado_autenticado_en_todos_los_formatos[archivo] PASSED [  8%]
+tests/test_seguridad.py::test_documento_cifrado_autenticado_en_todos_los_formatos[legacy] PASSED [ 13%]
+tests/test_seguridad.py::test_nonce_distinto_en_cada_exportacion PASSED  [ 17%]
+tests/test_seguridad.py::test_documento_no_requiere_ni_acepta_clave_compartida PASSED [ 21%]
+tests/test_seguridad.py::test_documento_sin_sesion_responde_401 PASSED   [ 26%]
+tests/test_seguridad.py::test_huellas_y_firma_robustas PASSED            [ 30%]
+tests/test_seguridad.py::test_cookie_segura PASSED                       [ 34%]
+tests/test_seguridad.py::test_proveedor_tls_verificado PASSED            [ 39%]
+tests/test_seguridad.py::test_archivo_temporal_privado PASSED            [ 43%]
+tests/test_seguridad.py::test_login_rechazado_no_registra_la_clave PASSED [ 47%]
+tests/test_seguridad.py::test_clave_almacenada_con_hash PASSED           [ 52%]
+tests/test_seguridad.py::test_migra_clave_en_texto_plano PASSED          [ 56%]
+tests/test_seguridad.py::test_rechazo_por_saldo_no_modifica_acumulado PASSED [ 60%]
+tests/test_seguridad.py::test_alias_se_guarda_sin_espacios_exteriores PASSED [ 65%]
+tests/test_smoke.py::test_health_y_build PASSED                          [ 69%]
+tests/test_smoke.py::test_status_real PASSED                             [ 73%]
+tests/test_smoke.py::test_esquema_sqlite PASSED                          [ 78%]
+tests/test_smoke.py::test_dataset_cargado PASSED                         [ 82%]
+tests/test_smoke.py::test_login_disponible PASSED                        [ 86%]
+tests/test_smoke.py::test_cuenta_inicial PASSED                          [ 91%]
+tests/test_smoke.py::test_reset_estandar PASSED                          [ 95%]
+tests/test_smoke.py::test_reset_saldo_bajo PASSED                        [100%]
+
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:37
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 23 passed, 1 warning in 6.27s =========================

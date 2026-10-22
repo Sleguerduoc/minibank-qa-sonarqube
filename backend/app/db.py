@@ -1,13 +1,18 @@
 """Persistencia SQLite y preparación del entorno de laboratorio."""
 
+import hashlib
+import hmac
 import os
+import secrets
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
-VERSION = "3.1.0"
-BUILD = "3.1.0"
+VERSION = "3.2.0"
+BUILD = "3.2.0"
 RUT_DEMO = "111111111"
+CLAVE_DEMO = "1234"  # Credencial pública del dataset ficticio (README); en la DB solo se guarda su hash.
+_SCRYPT = {"n": 2**14, "r": 8, "p": 1, "dklen": 32}
 SALDOS = {"estandar": 2_000_000, "saldo_bajo": 500_000}
 DEFAULT_DB_PATH = Path(__file__).resolve().parents[1] / "data" / "minibank_v3.db"
 
@@ -65,6 +70,24 @@ REQUIRED_COLUMNS = {
 }
 
 
+def hash_clave(clave: str, salt: bytes | None = None) -> str:
+    """Hash adaptativo (scrypt) con sal aleatoria: formato scrypt$<sal_hex>$<hash_hex>."""
+    salt = salt or secrets.token_bytes(16)
+    digest = hashlib.scrypt(clave.encode("utf-8"), salt=salt, **_SCRYPT)
+    return f"scrypt${salt.hex()}${digest.hex()}"
+
+
+def verificar_clave(clave: str, almacenada: str) -> bool:
+    try:
+        esquema, salt_hex, digest_hex = almacenada.split("$")
+    except ValueError:
+        return False
+    if esquema != "scrypt":
+        return False
+    calculado = hashlib.scrypt(clave.encode("utf-8"), salt=bytes.fromhex(salt_hex), **_SCRYPT)
+    return hmac.compare_digest(calculado.hex(), digest_hex)
+
+
 def get_db_path() -> Path:
     return Path(os.environ.get("MINIBANK_DB_PATH", str(DEFAULT_DB_PATH))).resolve()
 
@@ -104,7 +127,11 @@ def validate_profile(perfil: str):
 
 def _seed(conn, perfil: str):
     conn.execute("INSERT OR IGNORE INTO users(rut, nombre, clave) VALUES (?, ?, ?)",
-                 (RUT_DEMO, "Camila Rojas", "1234"))
+                 (RUT_DEMO, "Camila Rojas", hash_clave(CLAVE_DEMO)))
+    # Migración: bases creadas por builds anteriores guardaban la clave en texto plano.
+    for row in conn.execute("SELECT rut, clave FROM users").fetchall():
+        if not row[1].startswith("scrypt$"):
+            conn.execute("UPDATE users SET clave = ? WHERE rut = ?", (hash_clave(row[1]), row[0]))
     conn.execute("INSERT OR IGNORE INTO accounts(user_rut, saldo, transferido_hoy) VALUES (?, ?, 0)",
                  (RUT_DEMO, SALDOS[perfil]))
     conn.execute("INSERT OR IGNORE INTO lab_meta(key, value) VALUES ('perfil', ?)", (perfil,))
@@ -140,8 +167,12 @@ def invalidate_sessions():
 def reset_database(perfil: str = "estandar"):
     validate_profile(perfil)
     with transaction(write=True) as conn:
-        for table in ("sessions", "recipients", "movements", "accounts", "users", "lab_meta"):
-            conn.execute(f"DELETE FROM {table}")
+        conn.execute("DELETE FROM sessions")
+        conn.execute("DELETE FROM recipients")
+        conn.execute("DELETE FROM movements")
+        conn.execute("DELETE FROM accounts")
+        conn.execute("DELETE FROM users")
+        conn.execute("DELETE FROM lab_meta")
         conn.execute("DELETE FROM sqlite_sequence WHERE name IN ('recipients', 'movements')")
         _seed(conn, perfil)
 
@@ -152,7 +183,7 @@ def inspect_database():
     try:
         with transaction() as conn:
             for table, columns in REQUIRED_COLUMNS.items():
-                actual = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+                actual = {row["name"] for row in conn.execute("SELECT name FROM pragma_table_info(?)", (table,))}
                 if not columns <= actual:
                     return result
             if conn.execute("PRAGMA quick_check").fetchone()[0] != "ok":
@@ -166,7 +197,7 @@ def inspect_database():
                 "SELECT u.nombre, u.clave, a.saldo, a.transferido_hoy FROM users u "
                 "JOIN accounts a ON a.user_rut = u.rut WHERE u.rut = ?", (RUT_DEMO,)
             ).fetchone()
-            if (user is not None and user["nombre"] == "Camila Rojas" and user["clave"] == "1234"
+            if (user is not None and user["nombre"] == "Camila Rojas" and verificar_clave(CLAVE_DEMO, user["clave"])
                     and isinstance(user["saldo"], int) and user["saldo"] >= 0
                     and isinstance(user["transferido_hoy"], int) and user["transferido_hoy"] >= 0
                     and result["perfil"] in SALDOS):

@@ -1,0 +1,188 @@
+﻿backend-1  | INFO:     Started server process [1]
+backend-1  | INFO:     Waiting for application startup.
+backend-1  | ERROR:    Traceback (most recent call last):
+backend-1  |   File "/usr/local/lib/python3.12/site-packages/starlette/routing.py", line 692, in lifespan
+backend-1  |     async with self.lifespan_context(app) as maybe_state:
+backend-1  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend-1  |   File "/usr/local/lib/python3.12/contextlib.py", line 210, in __aenter__
+backend-1  |     return await anext(self.gen)
+backend-1  |            ^^^^^^^^^^^^^^^^^^^^^
+backend-1  |   File "/usr/local/lib/python3.12/site-packages/fastapi/routing.py", line 133, in merged_lifespan
+backend-1  |     async with original_context(app) as maybe_original_state:
+backend-1  |                ^^^^^^^^^^^^^^^^^^^^^
+backend-1  |   File "/usr/local/lib/python3.12/contextlib.py", line 210, in __aenter__
+backend-1  |     return await anext(self.gen)
+backend-1  |            ^^^^^^^^^^^^^^^^^^^^^
+backend-1  |   File "/srv/app/main.py", line 33, in lifespan
+backend-1  |     db.initialize_database()
+backend-1  |   File "/srv/app/db.py", line 147, in initialize_database
+backend-1  |     _seed(conn, perfil)
+backend-1  |   File "/srv/app/db.py", line 129, in _seed
+backend-1  |     conn.execute("INSERT OR IGNORE INTO users(rut, nombre, clave) VALUES (?, ?, ?)",
+backend-1  | sqlite3.OperationalError: attempt to write a readonly database
+backend-1  | 
+backend-1  | ERROR:    Application startup failed. Exiting.
+backend-1  | INFO:     Started server process [1]
+backend-1  | INFO:     Waiting for application startup.
+backend-1  | 2026-10-22 01:36:56,286 INFO Database SQLite | Schema OK | Seed data OK | Build 3.2.0
+backend-1  | INFO:     Application startup complete.
+backend-1  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+backend-1  | INFO:     127.0.0.1:42640 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.1:41352 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39164 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39166 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:60342 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:60358 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:38866 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:38876 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:41530 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:41538 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48906 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48914 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39188 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39194 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:54846 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:54848 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:44622 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:44624 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47954 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47962 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:50548 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:50560 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.1:50120 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.1:50120 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:54492 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42584 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42602 - "GET /api/movimientos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42610 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42590 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42618 - "POST /api/transferir HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42642 - "GET /api/movimientos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42654 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:42628 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52564 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52578 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:49922 - "POST /api/lab/reset?perfil=saldo_bajo HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:43322 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37856 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37878 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37866 - "GET /api/movimientos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37864 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37890 - "POST /api/transferir HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:37914 - "GET /api/movimientos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37924 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:37902 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:43334 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:43560 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:43568 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:36510 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34642 - "POST /api/lab/reset?perfil=saldo_bajo HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34654 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34666 - "POST /api/transferir HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:34676 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34690 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34692 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34694 - "POST /api/transferir HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:34702 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34710 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34720 - "POST /api/transferir HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34722 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34732 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34742 - "POST /api/transferir HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34756 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34760 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34764 - "POST /api/transferir HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34772 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34786 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34794 - "POST /api/transferir HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:34806 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34812 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34816 - "POST /api/destinatarios HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:34832 - "POST /api/destinatarios HTTP/1.1" 201 Created
+backend-1  | INFO:     172.22.0.3:34842 - "POST /api/destinatarios HTTP/1.1" 201 Created
+backend-1  | INFO:     172.22.0.3:34850 - "POST /api/destinatarios HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     172.22.0.3:34866 - "POST /api/destinatarios HTTP/1.1" 400 Bad Request
+backend-1  | INFO:     127.0.0.1:36518 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34880 - "POST /api/destinatarios HTTP/1.1" 201 Created
+backend-1  | INFO:     172.22.0.3:34888 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34902 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34912 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34916 - "POST /api/transferir HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34932 - "GET /api/cuenta HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:34942 - "GET /api/movimientos HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:34956 - "GET /api/destinatarios HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:34960 - "POST /api/transferir HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:34966 - "POST /api/destinatarios HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:34978 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:34982 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | 2026-10-22 01:39:31,725 WARNING Login rechazado: credenciales inv├ílidas
+backend-1  | INFO:     172.22.0.3:34996 - "POST /api/login HTTP/1.1" 401 Unauthorized
+backend-1  | 2026-10-22 01:39:31,794 WARNING Login rechazado: credenciales inv├ílidas
+backend-1  | INFO:     172.22.0.3:35006 - "POST /api/login HTTP/1.1" 401 Unauthorized
+backend-1  | 2026-10-22 01:39:31,851 WARNING Login rechazado: credenciales inv├ílidas
+backend-1  | INFO:     172.22.0.3:35014 - "POST /api/login HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:35020 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35024 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35038 - "POST /api/logout HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35044 - "GET /api/cuenta HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:35050 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35064 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35080 - "POST /api/destinatarios HTTP/1.1" 201 Created
+backend-1  | INFO:     172.22.0.3:35096 - "POST /api/destinatarios HTTP/1.1" 409 Conflict
+backend-1  | INFO:     172.22.0.3:35108 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35110 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35114 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35122 - "POST /api/lab/documentos HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:35130 - "POST /api/lab/documentos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:35132 - "GET /api/lab/proveedor/config HTTP/1.1" 200 OK
+backend-1  | 2026-10-22 01:39:33,328 WARNING Login rechazado: credenciales inv├ílidas
+backend-1  | INFO:     172.22.0.3:35136 - "POST /api/login HTTP/1.1" 401 Unauthorized
+backend-1  | INFO:     172.22.0.3:35142 - "POST /api/lab/reset HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:49722 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:49738 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:41820 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:41830 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52198 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52208 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37518 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37522 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:57138 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:57142 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47878 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47888 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47744 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:47754 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:42006 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:42010 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37606 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37610 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52614 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37966 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:37970 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:56466 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:56470 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:58116 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:58128 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:34000 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:34004 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48794 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48796 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:46684 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:45038 - "POST /api/login HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:45052 - "GET /api/movimientos HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:45056 - "GET /api/destinatarios HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:45042 - "GET /api/cuenta HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:46696 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     172.22.0.3:45058 - "POST /api/lab/documentos HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39756 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:39758 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:53256 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:53266 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:56346 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:56354 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:38482 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:38488 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48124 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:48132 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52572 - "GET /api/lab/status HTTP/1.1" 200 OK
+backend-1  | INFO:     127.0.0.1:52576 - "GET /api/lab/status HTTP/1.1" 200 OK

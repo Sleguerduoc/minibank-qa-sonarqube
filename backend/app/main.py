@@ -110,7 +110,7 @@ def login(datos: Credenciales):
     rut = normalizar_rut(datos.rut)
     with db.transaction(write=True) as conn:
         usuario = conn.execute("SELECT nombre, clave FROM users WHERE rut = ?", (rut,)).fetchone()
-        if not validar_rut(datos.rut) or usuario is None or usuario["clave"] != datos.clave:
+        if not validar_rut(datos.rut) or usuario is None or not db.verificar_clave(datos.clave, usuario["clave"]):
             logger.warning("Login rechazado: credenciales inválidas")
             raise HTTPException(401, "RUT o clave incorrectos")
         token = secrets.token_hex(32)
@@ -178,8 +178,8 @@ def registrar(datos: Destinatario, sesion: Sesion = Depends(usuario_actual)):
                         (sesion.rut, alias_key)).fetchone():
             raise HTTPException(409, "Ya existe un destinatario con ese alias")
         cursor = conn.execute("INSERT INTO recipients(user_rut, rut, nombre, alias, alias_key) VALUES (?, ?, ?, ?, ?)",
-                              (sesion.rut, rut, nombre, datos.alias, alias_key))
-        item = {"id": cursor.lastrowid, "rut": rut, "nombre": nombre, "alias": datos.alias}
+                              (sesion.rut, rut, nombre, alias, alias_key))
+        item = {"id": cursor.lastrowid, "rut": rut, "nombre": nombre, "alias": alias}
     return {"estado": "ok", "mensaje": "Destinatario guardado", "destinatario": item}
 
 
@@ -192,9 +192,7 @@ def transferir(datos: Transferencia, sesion: Sesion = Depends(usuario_actual)):
         codigo = ("DESTINATARIO_INVALIDO" if not validar_rut(datos.destinatario) else
                   validar_transferencia(datos.monto, account["saldo"], LIMITE_DIARIO, account["transferido_hoy"]))
         if codigo != "TRANSFERENCIA_OK":
-            if codigo == "SALDO_INSUFICIENTE":
-                conn.execute("UPDATE accounts SET transferido_hoy = transferido_hoy + ? WHERE user_rut = ?",
-                             (datos.monto, sesion.rut))
+            # RF04: una transferencia rechazada no modifica saldo ni acumulado diario.
             return JSONResponse(status_code=400, content={
                 "estado": "error", "codigo": codigo, "mensaje": MENSAJES[codigo]})
         saldo = account["saldo"] - datos.monto - COMISION

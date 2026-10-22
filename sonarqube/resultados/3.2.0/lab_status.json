@@ -1,0 +1,9 @@
+﻿{
+    "status":  "ready",
+    "version":  "3.2.0",
+    "build":  "3.2.0",
+    "database":  "sqlite",
+    "schema":  "ready",
+    "seed":  "loaded",
+    "perfil":  "estandar"
+}

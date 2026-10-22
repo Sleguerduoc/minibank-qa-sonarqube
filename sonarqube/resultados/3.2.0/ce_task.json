@@ -1,0 +1,23 @@
+﻿{
+    "id":  "3c23e368-ff83-49cb-a3fa-dbce802d6690",
+    "type":  "REPORT",
+    "componentId":  "4bd445a6-76f3-473b-8ffe-f58648e70968",
+    "componentKey":  "minibank3",
+    "componentName":  "MiniBank 3 - Laboratorio de seguridad",
+    "componentQualifier":  "TRK",
+    "analysisId":  "958c22b3-f5b1-40a8-ab95-b4936a0b6867",
+    "status":  "SUCCESS",
+    "submittedAt":  "2026-10-22T01:37:28+0000",
+    "submitterLogin":  "admin",
+    "startedAt":  "2026-10-22T01:37:28+0000",
+    "executedAt":  "2026-10-22T01:37:30+0000",
+    "executionTimeMs":  1499,
+    "hasScannerContext":  true,
+    "warningCount":  1,
+    "warnings":  [
+                     "SCM provider autodetection failed. Please use \"sonar.scm.provider\" to define SCM of your project, or disable the SCM Sensor in the project settings."
+                 ],
+    "infoMessages":  [
+
+                     ]
+}

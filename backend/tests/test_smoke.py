@@ -25,7 +25,7 @@ def autenticar(client):
 def test_health_y_build(client):
     response = client.get("/api/health")
     assert response.status_code == 200
-    assert response.json() == {"estado": "ok", "version": "3.1.0", "build": "3.1.0"}
+    assert response.json() == {"estado": "ok", "version": "3.2.0", "build": "3.2.0"}
 
 
 def test_status_real(client, monkeypatch, tmp_path):

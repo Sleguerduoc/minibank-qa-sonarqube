@@ -3,21 +3,14 @@ import { llamar, pesos } from './api.js'
 import Login from './Login.jsx'
 import Documentos, { esVistaDocumento } from './Documentos.jsx'
 
-const TOKEN_KEY = 'minibank-v3-token'
-
-function leerToken() {
-  try { return localStorage.getItem(TOKEN_KEY) } catch { return null }
-}
-
-function guardarToken(token) {
-  try {
-    if (token) localStorage.setItem(TOKEN_KEY, token)
-    else localStorage.removeItem(TOKEN_KEY)
-  } catch { /* La sesión actual puede continuar si el almacenamiento no está disponible. */ }
+// RNF03: el token vive solo en memoria (estado de React); no se persiste en el navegador.
+// Se limpia una clave heredada de builds anteriores que sí lo guardaban.
+function limpiarTokenHeredado() {
+  try { localStorage.removeItem('minibank-v3-token') } catch { /* almacenamiento no disponible */ }
 }
 
 export default function App() {
-  const [token, setToken] = useState(leerToken)
+  const [token, setToken] = useState(null)
   const sesionActual = useRef(token)
   const [cuenta, setCuenta] = useState(null)
   const [movimientos, setMovimientos] = useState([])
@@ -26,7 +19,7 @@ export default function App() {
 
   const limpiarSesion = useCallback((mensaje = '') => {
     sesionActual.current = null
-    guardarToken(null)
+    limpiarTokenHeredado()
     setToken(null); setCuenta(null); setMovimientos([]); setDestinatarios([]); setError(mensaje)
   }, [])
 
@@ -38,7 +31,7 @@ export default function App() {
 
   function iniciarSesion(nuevoToken) {
     sesionActual.current = nuevoToken
-    guardarToken(nuevoToken)
+    limpiarTokenHeredado()
     setCuenta(null); setMovimientos([]); setDestinatarios([]); setError(''); setToken(nuevoToken)
   }
 
@@ -61,14 +54,6 @@ export default function App() {
 
   useEffect(() => { cargar() }, [cargar])
 
-  async function actualizarCuenta() {
-    const { res, data } = await llamar('/cuenta', { token })
-    if (sesionActual.current !== token) return
-    if (res.status === 401) return sesionInvalida(token)
-    if (!res.ok) return setError(data.mensaje || 'No fue posible actualizar la cuenta. Revise la conexión.')
-    setError(''); setCuenta(data)
-  }
-
   async function actualizarDestinatarios() {
     const { res, data } = await llamar('/destinatarios', { token })
     if (sesionActual.current !== token) return
@@ -89,13 +74,13 @@ export default function App() {
   if (esVistaDocumento()) {
     // La vista de documento solo muestra datos recibidos desde la ventana principal (mismo origen).
     return <main className="pagina">
-      <header className="cabecera"><div><strong>MiniBank <span>3.1.0</span></strong><p className="nota">Documentos de la cuenta</p></div></header>
+      <header className="cabecera"><div><strong>MiniBank <span>3.2.0</span></strong><p className="nota">Documentos de la cuenta</p></div></header>
       <Documentos token={null} sesionInvalida={sesionInvalida} />
     </main>
   }
 
   return <main className="pagina">
-    <header className="cabecera"><div><strong>MiniBank <span>3.1.0</span></strong><p className="nota">QA Lab · Operación: ¿liberamos esta versión?</p></div>
+    <header className="cabecera"><div><strong>MiniBank <span>3.2.0</span></strong><p className="nota">QA Lab · Operación: ¿liberamos esta versión?</p></div>
       {token && <button className="secundario" onClick={salir}>Salir</button>}</header>
     {error && <p role="alert" className="aviso error">{error}</p>}
     {!token && <Login onLogin={iniciarSesion} onUnauthorized={() => limpiarSesion()} />}
@@ -105,7 +90,7 @@ export default function App() {
         <span>Transferido hoy: {pesos(cuenta.transferido_hoy)} de {pesos(cuenta.limite_diario)}</span>
         <span>Comisión: {pesos(cuenta.comision)} · máximo por transferencia: {pesos(cuenta.maximo_transferencia)}</span></section>
       <div className="columnas">
-        <div><Transferir token={token} destinatarios={destinatarios} actualizar={actualizarCuenta} sesionInvalida={sesionInvalida} />
+        <div><Transferir token={token} destinatarios={destinatarios} actualizar={cargar} sesionInvalida={sesionInvalida} />
           <section className="tarjeta"><h2>Movimientos</h2>
             {!movimientos.length && <p className="nota">Sin movimientos</p>}
             <ul className="movimientos">{movimientos.map(m => <li key={m.comprobante}>
@@ -123,7 +108,7 @@ export default function App() {
       </div>
       <Documentos token={token} sesionInvalida={sesionInvalida} />
     </>}
-    <footer className="nota">Build 3.1.0 · Datos de práctica persistentes en SQLite. Consulte los requisitos y registre evidencia de cada caso.</footer>
+    <footer className="nota">Build 3.2.0 · Datos de práctica persistentes en SQLite. Consulte los requisitos y registre evidencia de cada caso.</footer>
   </main>
 }
 

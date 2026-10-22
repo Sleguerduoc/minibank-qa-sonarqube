@@ -1,0 +1,59 @@
+﻿[2026-10-21 22:33:53] Ciclo 3.2.0 | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 22:33:53] Docker Engine 29.7.2
+[2026-10-21 22:33:53] Esperando a que SonarQube esté UP
+[2026-10-21 22:33:55] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:34:15] Aplicando archivos de builds\3.2.0 sobre minibank-qa-lab-v3
+   copiado: sonar-project.properties
+   copiado: backend\Dockerfile
+   copiado: backend\app\db.py
+   copiado: backend\app\main.py
+   copiado: backend\tests\test_seguridad.py
+   copiado: backend\tests\test_smoke.py
+   copiado: frontend\Dockerfile
+   copiado: frontend\index.html
+   copiado: frontend\package-lock.json
+   copiado: frontend\package.json
+   copiado: frontend\src\App.jsx
+   copiado: frontend\src\Login.jsx
+[2026-10-21 22:34:15] docker compose up --build -d
+[2026-10-21 22:36:44] Ciclo 3.2.0 | carpeta V3: C:\Users\sbseg\Desktop\seguridad proyecto\seguridad proyecto\proyecto\calidad_qa\minibank-qa-lab-v3
+[2026-10-21 22:36:44] Docker Engine 29.7.2
+[2026-10-21 22:36:45] Esperando a que SonarQube esté UP
+[2026-10-21 22:36:47] SonarQube UP - versión 26.10.0.133078
+[2026-10-21 22:36:53] Aplicando archivos de builds\3.2.0 sobre minibank-qa-lab-v3
+   copiado: sonar-project.properties
+   copiado: backend\Dockerfile
+   copiado: backend\app\db.py
+   copiado: backend\app\main.py
+   copiado: backend\tests\test_seguridad.py
+   copiado: backend\tests\test_smoke.py
+   copiado: frontend\Dockerfile
+   copiado: frontend\index.html
+   copiado: frontend\package-lock.json
+   copiado: frontend\package.json
+   copiado: frontend\src\App.jsx
+   copiado: frontend\src\Login.jsx
+[2026-10-21 22:36:53] docker compose up --build -d
+[2026-10-21 22:37:03] MiniBank /api/lab/status: status=ready build=3.2.0
+[2026-10-21 22:37:03] pytest dentro del contenedor backend
+[2026-10-21 22:37:10] pytest: ======================== 23 passed, 1 warning in 6.27s =========================
+[2026-10-21 22:37:10] Ejecutando SonarScanner (sonar-project.properties, versión 3.2.0)
+[2026-10-21 22:37:30] Esperando procesamiento del servidor (tarea 3c23e368-ff83-49cb-a3fa-dbce802d6690)
+[2026-10-21 22:37:30] Tarea del servidor: SUCCESS
+[2026-10-21 22:37:30] Token de análisis revocado
+[2026-10-21 22:37:31] RESUMEN 3.2.0
+   alert_status                         ERROR
+   bugs                                 4
+   code_smells                          0
+   coverage                             0.0
+   duplicated_lines_density             0.0
+   maintainability_issues               {"INFO":0,"LOW":0,"MEDIUM":0,"HIGH":0,"BLOCKER":0,"total":0}
+   ncloc                                908
+   reliability_issues                   {"INFO":0,"LOW":0,"MEDIUM":4,"HIGH":0,"BLOCKER":0,"total":4}
+   security_hotspots                    0
+   security_issues                      {"INFO":0,"LOW":0,"MEDIUM":0,"HIGH":0,"BLOCKER":0,"total":0}
+   security_rating                      1.0
+   security_review_rating               1.0
+   software_quality_security_issues     0
+   software_quality_security_rating     1.0
+   vulnerabilities                      0
